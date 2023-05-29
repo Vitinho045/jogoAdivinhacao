@@ -1,0 +1,112 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <locale.h>
+
+int main(){
+	//traduzindo para ler acentos
+	printf("", setlocale(LC_ALL, ""));
+	
+	// Cabeçalho do jogo
+	printf(" ______________________________________________________ \n");
+	printf("(__   ____________________________________________   __)\n");
+	printf("   | |                                            | |   \n");
+	printf("   | |                 Bem Vindo                  | |   \n"); 
+	printf("   | |                    ao                      | |   \n"); 
+	printf("   | |            Jogo de Advinhação!             | |   \n"); 
+	printf(" __| |____________________________________________| |__ \n"); 
+	printf("(______________________________________________________)\n"); 
+	printf("\n");
+	
+	
+	// GERAR NÚMEROS ALEATÓRIOS DE 0 A 100
+	int segundos = time(0);
+	srand(segundos);
+	int numerogrande = rand(); 
+	int numerosecreto = numerogrande % 100;
+	//FIM
+	
+	int chute;
+	int tentativa = 1;
+	double pontos = 100;
+	int acertou;
+	
+	// ESCOLHENDO NÍVEL DE DIFICULDADE
+	int nivel, numerotentativas;
+	printf("TENTE ACERTAR O NÚMERO QUE O JOGO PROPORCIONAR!\n\n");
+	printf("\nQual o nível de dificuldade?\n");
+	printf("(1) Fácil (2) Médio (3) Difícil (4) Impossível: ");
+	scanf("%d", &nivel);
+	
+	switch(nivel){
+		case 1:
+			numerotentativas = 20;	
+			break;
+		case 2:
+			numerotentativas = 15;
+			break;
+		case 3:
+			numerotentativas = 10;
+			break;
+		default:
+			numerotentativas = 5;
+			break;
+	}
+	
+	//FIM
+	
+	printf("\nVocê tem %d tentativas para acertar, boa sorte!\n\n", numerotentativas);
+	
+	//FOR
+	for(int i = 1; i <= numerotentativas; i++){
+		
+		printf("Tentativa %d", tentativa);
+		printf("\nQual seu chute? ");
+		scanf("%d", &chute);
+		
+		if(chute < 0){
+			printf("Não pode chutar números negativos!\n\n");
+			
+			//retorna ao while 
+			continue;
+		}
+		
+		int acertou = (chute == numerosecreto);
+		int maior = chute > numerosecreto;
+		
+		
+		if (acertou){
+			break;
+		}
+		
+			else if(maior){
+				printf("Seu chute foi %d e é maior que o número secreto.\n", chute);
+			}
+			
+			else {
+				printf("Seu chute foi %d e é menor que o número secreto.\n", chute);
+			}
+			
+		//pular linha
+		printf("\n");
+		//adiciona +1 a tentativa
+		tentativa++;
+		
+		double pontosperdidos = abs(chute - numerosecreto) / (double)2;
+		pontos = pontos - (pontosperdidos);
+		
+	}
+	
+	printf("\nFim de Jogo!!!!!\n\n");
+	
+	int acertou2 = (chute == numerosecreto);
+	
+	if(acertou2){
+		printf("Parabéns, você acertou!\n");
+		printf("Você acertou em %d tentativa(s).\n", tentativa);
+	}
+	else{
+		printf("Você perdeu, tente de novo!!!\n\n");
+	}
+	return 0;
+}
